@@ -1,15 +1,15 @@
 #getup.py
 
 #AkariClientのインポート
-from akari_client import AkariClient
-import face_tracking
+#from akari_client import AkariClient
+#import face_tracking
 
 
 
 
-def getup(joints) -> None:
+#def getup(m5,joints) -> None:
 
-        face_tracking.face_tracking(joints)
+        #face_tracking.face_tracking(m5,joints)
         #if():
             #face_tracking.face_tracking()
         #else:

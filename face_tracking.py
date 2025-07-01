@@ -186,7 +186,11 @@ https://github.com/PINTO0309/PINTO_model_zoo/tree/main/144_YuNet
 """
 
 
-def FaceRecognition(q_detection: Any) -> None:
+def FaceRecognition(m5, q_detection: Any) -> None:
+    m5stack = m5
+    data = m5.get()
+
+
     # --------------- Arguments ---------------
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -361,17 +365,20 @@ def FaceRecognition(q_detection: Any) -> None:
                 counter = 0
                 start_time = time.time()
 
+            if(data["brightness"]>3500):
+                break
+
             if cv2.waitKey(1) == ord("q"):
                 break
 
 
-def face_tracking(joints) -> None:
+def face_tracking(m5,joints) -> None:
     q_detection: Any = Queue()
 
     face_tracker = FaceTracker(joints)
     direction_updater = DirectionUpdater()
 
-    t1 = threading.Thread(target=FaceRecognition, args=(q_detection,))
+    t1 = threading.Thread(target=FaceRecognition(m5), args=(q_detection,))
     t2 = threading.Thread(target=direction_updater._face_info_cb, args=(q_detection,))
     t3 = threading.Thread(target=face_tracker._tracker)
     t1.start()
