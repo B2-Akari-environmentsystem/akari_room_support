@@ -4,7 +4,7 @@
 # -*- coding: utf-8 -*-
 import time
 import sleep
-import getup
+import face_tracking
 
 from akari_client import AkariClient
 #ディスプレイ上の文字の位置を指定する際に使うPositionsのインポート

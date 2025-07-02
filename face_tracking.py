@@ -10,6 +10,7 @@ https://github.com/luxonis/depthai-experiments/tree/master/gen2-face-detection
 import argparse
 import threading
 import time
+import sleep
 from pathlib import Path
 from queue import Queue
 from time import sleep
@@ -186,9 +187,8 @@ https://github.com/PINTO0309/PINTO_model_zoo/tree/main/144_YuNet
 """
 
 
-def FaceRecognition(m5, q_detection: Any) -> None:
+def FaceRecognition(q_detection: Any, m5) -> None:
     m5stack = m5
-    data = m5.get()
 
 
     # --------------- Arguments ---------------
@@ -284,6 +284,9 @@ def FaceRecognition(m5, q_detection: Any) -> None:
         fps = 0.0
 
         while True:
+
+            data = m5.get()
+
             in_frame = q_cam.get()
             in_nn = q_nn.get()
 
@@ -378,7 +381,7 @@ def face_tracking(m5,joints) -> None:
     face_tracker = FaceTracker(joints)
     direction_updater = DirectionUpdater()
 
-    t1 = threading.Thread(target=FaceRecognition(m5), args=(q_detection,))
+    t1 = threading.Thread(target=FaceRecognition, args=(q_detection,m5,))
     t2 = threading.Thread(target=direction_updater._face_info_cb, args=(q_detection,))
     t3 = threading.Thread(target=face_tracker._tracker)
     t1.start()
