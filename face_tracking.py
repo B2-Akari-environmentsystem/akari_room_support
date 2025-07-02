@@ -372,8 +372,6 @@ def FaceRecognition(q_detection: Any, m5) -> None:
                 color_black,
             )
 
-            # show frame
-            cv2.imshow("Detections", frame)
 
             counter += 1
             if (time.time() - start_time) > 1:
