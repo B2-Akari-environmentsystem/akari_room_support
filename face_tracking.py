@@ -10,7 +10,7 @@ https://github.com/luxonis/depthai-experiments/tree/master/gen2-face-detection
 import argparse
 import threading
 import time
-import sleep
+import sleep as sleep_module
 from pathlib import Path
 from queue import Queue
 from time import sleep
@@ -36,11 +36,12 @@ VIDEO_WIDTH, VIDEO_HEIGHT = 640, 480
 class FaceTracker:
     """face tracking class"""
 
-    def __init__(self,joints) -> None:
+    def __init__(self,joints,m5) -> None:
         global pan_target_angle
         global tilt_target_angle
 
         self.joints = joints
+        self.m5 = m5
 
         self._default_x = 0
         self._default_y = 0
@@ -71,10 +72,16 @@ class FaceTracker:
         global pan_target_angle
         global tilt_target_angle
         while True:
+
+            data = self.m5.get()
+
             self.joints.move_joint_positions(
                 pan=pan_target_angle, tilt=tilt_target_angle
             )
             sleep(0.01)
+
+            if(data["brightness"]>3500):
+                break
 
 
 class DirectionUpdater:
@@ -126,8 +133,12 @@ class DirectionUpdater:
         elif self._tilt_p_gain < self._MIN_TILT_GAIN:
             self._tilt_p_gain = self._MIN_TILT_GAIN
 
-    def _face_info_cb(self, q_detection: Any) -> None:
+    def _face_info_cb(self, q_detection: Any, m5) -> None:
+        m5stack = m5
         while True:
+
+            data = m5.get()
+
             self.detections = q_detection.get()
 
             self._face_x = self.detections[0]
@@ -141,6 +152,9 @@ class DirectionUpdater:
                 self._face_y + self._face_height / 2,
             )
             self._calc_p_gain()
+
+            if(data["brightness"]>3500):
+                break
 
     def _set_goal_pos(self, face_x: float, face_y: float) -> None:
         global pan_target_angle
@@ -378,11 +392,11 @@ def FaceRecognition(q_detection: Any, m5) -> None:
 def face_tracking(m5,joints) -> None:
     q_detection: Any = Queue()
 
-    face_tracker = FaceTracker(joints)
+    face_tracker = FaceTracker(joints,m5)
     direction_updater = DirectionUpdater()
 
     t1 = threading.Thread(target=FaceRecognition, args=(q_detection,m5,))
-    t2 = threading.Thread(target=direction_updater._face_info_cb, args=(q_detection,))
+    t2 = threading.Thread(target=direction_updater._face_info_cb, args=(q_detection,m5,))
     t3 = threading.Thread(target=face_tracker._tracker)
     t1.start()
     t2.start()
@@ -390,3 +404,5 @@ def face_tracking(m5,joints) -> None:
     t1.join()
     t2.join()
     t3.join()
+
+    sleep_module.sleep(m5,joints)
