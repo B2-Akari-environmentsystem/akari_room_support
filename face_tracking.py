@@ -20,6 +20,7 @@ import blobconverter
 import cv2
 import depthai as dai
 import numpy as np
+import environment
 from akari_client import AkariClient
 from utils.priorbox import PriorBox
 from utils.utils import draw
@@ -110,7 +111,7 @@ class FaceTracker:
                 running3 = False
                 break
             
-            if(running1 == False or running2 == False or running4 = False):
+            if(running1 == False or running2 == False or running4 == False):
                 break
 
 
@@ -205,7 +206,7 @@ class DirectionUpdater:
                 running2 = False
                 break
 
-            if(running1 == False or running3 == False or running4 = False):
+            if(running1 == False or running3 == False or running4 == False):
                 break
 
     def _set_goal_pos(self, face_x: float, face_y: float) -> None:
@@ -454,31 +455,23 @@ def About_Display(m5) -> None:
     #ディスプレイを白くする
     m5.set_display_color(Colors.WHITE)
 
-    m5.set_display_text("おはようございます!")
+    m5.set_display_text("おはよう!",size=7)
 
     time.sleep(3)
 
     data = m5.get()
 
     temp = int(data["temperature"])
-    press = int(data["pressure"])
+    press = int(data["pressure"] / 100)
 
-    m5.set_display_text("気温",pos_x=Positions.LEFT,pos_y=Positions.TOP)
-    m5.set_display_text(str(temp) + "℃",pos_x=Positions.LEFT,pos_y=Positions.BOTTOM,refresh=False)
+    m5.set_display_text("気温",pos_x=Positions.LEFT,pos_y=Positions.TOP, size=7)
+    m5.set_display_text(str(temp) + "℃",pos_x=Positions.LEFT,pos_y=Positions.BOTTOM,refresh=False, size=5)
 
-    m5.set_display_text("気圧",pos_x=Positions.RIGHT,pos_y=Positions.TOP,refresh=False)
-    m5.set_display_text(str(press) + "Pa",pos_x=Positions.RIGHT,pos_y=Positions.BOTTOM,refresh=False)
+    m5.set_display_text("気圧",pos_x=Positions.RIGHT,pos_y=Positions.TOP,refresh=False, size=7)
+    m5.set_display_text(str(press) + "hPa",pos_x=Positions.RIGHT,pos_y=Positions.BOTTOM,refresh=False, size=5)
 
     while True:
-        data = m5.get()
-
-        if data["button_a"] == True
-            m5.set_display_text("気温",pos_x=Positions.CENTER,pos_y=Positions.TOP)
-            m5.set_display_text(str(temp),pos_x=Positions.CENTER,pos_y=Positions.BOTTOM,refresh=False)
-
-        if data["button_c"] = True
-            m5.set_display_text("気圧",pos_x=Positions.CENTER,pos_y=Positions.TOP)
-            m5.set_display_text(str(press),pos_x=Positions.CENTER,pos_y=Positions.BOTTOM,refresh=False)
+        environment.environment(m5)
 
         if(data["brightness"]>3500):
             running4 = False

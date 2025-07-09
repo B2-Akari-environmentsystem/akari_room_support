@@ -7,10 +7,6 @@ import sleep
 import face_tracking
 
 from akari_client import AkariClient
-#ディスプレイ上の文字の位置を指定する際に使うPositionsのインポート
-from akari_client.position import Positions
-#ディスプレイに関する色を指定する際に使うColors,Colorのインポート
-from akari_client.color import Colors, Color
 
 from akari_client.config import (
    AkariClientConfig,
