@@ -19,7 +19,7 @@ def environment(m5) -> None:
             m5.set_dout(pin_id=1,value=False)
             m5.set_dout(pin_id=0,value=False)
 
-            m5.set_pwmout(pin_id=0,value=200)
+            m5.set_pwmout(pin_id=0,value=100)
         
         if 13 <= data["temperature"] and data["temperature"] < 18:
             #LED 黄色　少し寒い
@@ -27,14 +27,14 @@ def environment(m5) -> None:
             m5.set_pwmout(pin_id=0,value=False)
             m5.set_dout(pin_id=0,value=False)
 
-            m5.set_dout(pin_id=1,value=200)
+            m5.set_dout(pin_id=1,value=True)
 
         if data["temperature"] < 13:
             #LED 黄色二つ　寒い
             m5.set_pwmout(pin_id=0,value=False)
 
-            m5.set_dout(pin_id=1,value=200)
-            m5.set_dout(pin_id=0,value=200)
+            m5.set_dout(pin_id=1,value=True)
+            m5.set_dout(pin_id=0,value=True)
 
         if 25 < data["temperature"] and data["temperature"] <= 30:
             #LED 黄色　少し暑い
@@ -42,15 +42,15 @@ def environment(m5) -> None:
             m5.set_pwmout(pin_id=0,value=False)
             m5.set_dout(pin_id=0,value=False)
 
-            m5.set_dout(pin_id=1,value=200)
+            m5.set_dout(pin_id=1,value=True)
 
         if 30 < data["temperature"]:
             #LED 黄色二つ　暑い
 
             m5.set_pwmout(pin_id=0,value=False)
 
-            m5.set_dout(pin_id=1,value=200)
-            m5.set_dout(pin_id=0,value=200)
+            m5.set_dout(pin_id=1,value=True)
+            m5.set_dout(pin_id=0,value=True)
 
     if data["button_c"] == True:
         m5.set_display_text("気圧",pos_x=Positions.CENTER,pos_y=Positions.TOP, size=7)
