@@ -30,6 +30,10 @@ from akari_client.color import Colors, Color
 pan_target_angle = 0.0
 tilt_target_angle = 0.0
 
+runnning1 = True
+runnning2 = True
+runnning3 = True
+
 # resize input to smaller size for faster inference
 NN_WIDTH, NN_HEIGHT = 160, 120
 VIDEO_WIDTH, VIDEO_HEIGHT = 640, 480
@@ -74,6 +78,14 @@ class FaceTracker:
     def _tracker(self) -> None:
         global pan_target_angle
         global tilt_target_angle
+        global runnning1
+        global runnning2
+        global runnning3
+
+        runnning1 = True
+        runnning2 = True
+        runnning3 = True
+
         count3 = 0
         while True:
 
@@ -92,6 +104,10 @@ class FaceTracker:
             sleep(0.01)
 
             if(data["brightness"]>3500):
+                runnning3 = False
+                break
+            
+            if(runnning1 == False or runnning2 == False):
                 break
 
 
@@ -145,6 +161,14 @@ class DirectionUpdater:
             self._tilt_p_gain = self._MIN_TILT_GAIN
 
     def _face_info_cb(self, q_detection: Any, m5) -> None:
+        global runnning1
+        global runnning2
+        global runnning3
+
+        runnning1 = True
+        runnning2 = True
+        runnning3 = True
+
         m5stack = m5
         count2 = 0
         while True:
@@ -154,7 +178,7 @@ class DirectionUpdater:
             if count2 == 1:
                 data = m5.get()
 
-            if coun2 t%100 == 0:
+            if count2 %100 == 0:
                 data = m5.get()
 
 
@@ -173,6 +197,10 @@ class DirectionUpdater:
             self._calc_p_gain()
 
             if(data["brightness"]>3500):
+                runnning2 = False
+                break
+
+            if(runnning1 == False or runnning3 == False):
                 break
 
     def _set_goal_pos(self, face_x: float, face_y: float) -> None:
@@ -317,6 +345,14 @@ def FaceRecognition(q_detection: Any, m5) -> None:
         counter = 0
         fps = 0.0
 
+        global runnning1
+        global runnning2
+        global runnning3
+
+        runnning1 = True
+        runnning2 = True
+        runnning3 = True
+
         while True:
 
             count1 += 1
@@ -386,6 +422,10 @@ def FaceRecognition(q_detection: Any, m5) -> None:
                 start_time = time.time()
 
             if(data["brightness"]>3500):
+                runnning1 = False
+                break
+
+            if(runnning2 == False or runnning3 == False):
                 break
 
             if cv2.waitKey(1) == ord("q"):
@@ -404,11 +444,14 @@ def About_Display(m5) -> None:
 
     data = m5.get()
 
+    temp = int(data["temperature"])
+    press = int(data["pressure"])
+
     m5.set_display_text("気温",pos_x=Positions.LEFT,pos_y=Positions.TOP)
-    m5.set_display_text(str(data["temperature"]),pos_x=Positions.LEFT,pos_y=Positions.BOTTOM,refresh=False)
+    m5.set_display_text(str(temp),pos_x=Positions.LEFT,pos_y=Positions.BOTTOM,refresh=False)
 
     m5.set_display_text("気圧",pos_x=Positions.RIGHT,pos_y=Positions.TOP,refresh=False)
-    m5.set_display_text(str(data["pressure"]),pos_x=Positions.RIGHT,pos_y=Positions.BOTTOM,refresh=False)
+    m5.set_display_text(str(press),pos_x=Positions.RIGHT,pos_y=Positions.BOTTOM,refresh=False)
 
     return 0
 
