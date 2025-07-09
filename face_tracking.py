@@ -74,9 +74,17 @@ class FaceTracker:
     def _tracker(self) -> None:
         global pan_target_angle
         global tilt_target_angle
+        count3 = 0
         while True:
 
-            data = self.m5.get()
+            count3 += 1
+
+            if count3 == 1:
+                data = self.m5.get()
+
+            if count3 %100 == 0:
+                data = self.m5.get()
+
 
             self.joints.move_joint_positions(
                 pan=pan_target_angle, tilt=tilt_target_angle
@@ -138,9 +146,17 @@ class DirectionUpdater:
 
     def _face_info_cb(self, q_detection: Any, m5) -> None:
         m5stack = m5
+        count2 = 0
         while True:
 
-            data = m5.get()
+            count2 += 1
+
+            if count2 == 1:
+                data = m5.get()
+
+            if coun2 t%100 == 0:
+                data = m5.get()
+
 
             self.detections = q_detection.get()
 
@@ -206,7 +222,7 @@ https://github.com/PINTO0309/PINTO_model_zoo/tree/main/144_YuNet
 
 def FaceRecognition(q_detection: Any, m5) -> None:
     m5stack = m5
-    count = 0
+    count1 = 0
 
 
     # --------------- Arguments ---------------
@@ -303,12 +319,12 @@ def FaceRecognition(q_detection: Any, m5) -> None:
 
         while True:
 
-            count += 1
+            count1 += 1
 
-            if count == 1:
+            if count1 == 1:
                 data = m5.get()
 
-            if count%100 == 0:
+            if count1 %100 == 0:
                 data = m5.get()
 
             in_frame = q_cam.get()
@@ -393,6 +409,8 @@ def About_Display(m5) -> None:
 
     m5.set_display_text("気圧",pos_x=Positions.RIGHT,pos_y=Positions.TOP,refresh=False)
     m5.set_display_text(str(data["pressure"]),pos_x=Positions.RIGHT,pos_y=Positions.BOTTOM,refresh=False)
+
+    return 0
 
 
 def face_tracking(m5,joints) -> None:
