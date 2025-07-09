@@ -36,6 +36,10 @@ while(1):
     if(data["brightness"]>3500):#寝る動作
         sleep.sleep(m5,joints)
 
+        time.sleep(1)
+
     else:#起きる動作
         face_tracking.face_tracking(m5,joints)
+
+        time.sleep(1)
     

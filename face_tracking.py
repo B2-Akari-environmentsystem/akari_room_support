@@ -24,6 +24,9 @@ from akari_client import AkariClient
 from utils.priorbox import PriorBox
 from utils.utils import draw
 
+from akari_client.position import Positions
+from akari_client.color import Colors, Color
+
 pan_target_angle = 0.0
 tilt_target_angle = 0.0
 
@@ -203,6 +206,7 @@ https://github.com/PINTO0309/PINTO_model_zoo/tree/main/144_YuNet
 
 def FaceRecognition(q_detection: Any, m5) -> None:
     m5stack = m5
+    count = 0
 
 
     # --------------- Arguments ---------------
@@ -299,7 +303,13 @@ def FaceRecognition(q_detection: Any, m5) -> None:
 
         while True:
 
-            data = m5.get()
+            count += 1
+
+            if count == 1:
+                data = m5.get()
+
+            if count%100 == 0:
+                data = m5.get()
 
             in_frame = q_cam.get()
             in_nn = q_nn.get()
@@ -352,27 +362,6 @@ def FaceRecognition(q_detection: Any, m5) -> None:
                 # バウンディングボックスの値をQueueに挿入する
                 q_detection.put(bboxes[0])
 
-            # show fps
-            color_black, color_white = (0, 0, 0), (255, 255, 255)
-            label_fps = "Fps: {:.2f}".format(fps)
-            (w1, h1), _ = cv2.getTextSize(label_fps, cv2.FONT_HERSHEY_TRIPLEX, 0.4, 1)
-            cv2.rectangle(
-                frame,
-                (0, frame.shape[0] - h1 - 6),
-                (w1 + 2, frame.shape[0]),
-                color_white,
-                -1,
-            )
-            cv2.putText(
-                frame,
-                label_fps,
-                (2, frame.shape[0] - 4),
-                cv2.FONT_HERSHEY_TRIPLEX,
-                0.4,
-                color_black,
-            )
-
-
             counter += 1
             if (time.time() - start_time) > 1:
                 fps = counter / (time.time() - start_time)
@@ -386,6 +375,25 @@ def FaceRecognition(q_detection: Any, m5) -> None:
             if cv2.waitKey(1) == ord("q"):
                 break
 
+def About_Display(m5) -> None:
+
+
+
+    #ディスプレイを白くする
+    m5.set_display_color(Colors.WHITE)
+
+    m5.set_display_text("おはようございます!")
+
+    time.sleep(3)
+
+    data = m5.get()
+
+    m5.set_display_text("気温",pos_x=Positions.LEFT,pos_y=Positions.TOP)
+    m5.set_display_text(str(data["temperature"]),pos_x=Positions.LEFT,pos_y=Positions.BOTTOM,refresh=False)
+
+    m5.set_display_text("気圧",pos_x=Positions.RIGHT,pos_y=Positions.TOP,refresh=False)
+    m5.set_display_text(str(data["pressure"]),pos_x=Positions.RIGHT,pos_y=Positions.BOTTOM,refresh=False)
+
 
 def face_tracking(m5,joints) -> None:
     q_detection: Any = Queue()
@@ -396,11 +404,14 @@ def face_tracking(m5,joints) -> None:
     t1 = threading.Thread(target=FaceRecognition, args=(q_detection,m5,))
     t2 = threading.Thread(target=direction_updater._face_info_cb, args=(q_detection,m5,))
     t3 = threading.Thread(target=face_tracker._tracker)
+    t4 = threading.Thread(target=About_Display, args=(m5,))
     t1.start()
     t2.start()
     t3.start()
+    t4.start()
     t1.join()
     t2.join()
     t3.join()
+    t4.join()
 
     sleep_module.sleep(m5,joints)
