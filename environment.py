@@ -12,30 +12,53 @@ def environment(m5) -> None:
 
     if data["button_a"] == True:
         m5.set_display_text("気温",pos_x=Positions.CENTER,pos_y=Positions.TOP, size=7)
-        m5.set_display_text(str(temp),pos_x=Positions.CENTER,pos_y=Positions.BOTTOM,refresh=False, size=7)
+        m5.set_display_text(str(temp) + "度",pos_x=Positions.CENTER,pos_y=Positions.BOTTOM,refresh=False, size=7)
 
-        """if 18 <= data["temperature"] and data["temperature"] <= 25:
-            #LED 緑　ちょうどいい
+        if 18 <= data["temperature"] and data["temperature"] <= 25:
+
+            m5.set_dout(pin_id=1,value=False)
+            m5.set_dout(pin_id=0,value=False)
+
+            m5.set_pwmout(pin_id=0,value=200)
         
         if 13 <= data["temperature"] and data["temperature"] < 18:
             #LED 黄色　少し寒い
 
+            m5.set_pwmout(pin_id=0,value=False)
+            m5.set_dout(pin_id=0,value=False)
+
+            m5.set_dout(pin_id=1,value=200)
+
         if data["temperature"] < 13:
             #LED 黄色二つ　寒い
+            m5.set_pwmout(pin_id=0,value=False)
+
+            m5.set_dout(pin_id=1,value=200)
+            m5.set_dout(pin_id=0,value=200)
 
         if 25 < data["temperature"] and data["temperature"] <= 30:
             #LED 黄色　少し暑い
 
+            m5.set_pwmout(pin_id=0,value=False)
+            m5.set_dout(pin_id=0,value=False)
+
+            m5.set_dout(pin_id=1,value=200)
+
         if 30 < data["temperature"]:
-            #LED 黄色二つ　暑い"""
+            #LED 黄色二つ　暑い
+
+            m5.set_pwmout(pin_id=0,value=False)
+
+            m5.set_dout(pin_id=1,value=200)
+            m5.set_dout(pin_id=0,value=200)
 
     if data["button_c"] == True:
         m5.set_display_text("気圧",pos_x=Positions.CENTER,pos_y=Positions.TOP, size=7)
-        m5.set_display_text(str(press),pos_x=Positions.CENTER,pos_y=Positions.BOTTOM,refresh=False, size=7)
+        m5.set_display_text(str(press) + "hPa",pos_x=Positions.CENTER,pos_y=Positions.BOTTOM,refresh=False, size=7)
 
     if data["button_b"] == True:
-        m5.set_display_text("気温",pos_x=Positions.LEFT,pos_y=Positions.TOP, size=7
-        m5.set_display_text(str(temp) + "℃",pos_x=Positions.LEFT,pos_y=Positions.BOTTOM,refresh=False, size=5)
+        m5.set_display_text("気温",pos_x=Positions.LEFT,pos_y=Positions.TOP, size=7)
+        m5.set_display_text(str(temp) + "度",pos_x=Positions.LEFT,pos_y=Positions.BOTTOM,refresh=False, size=5)
 
         m5.set_display_text("気圧",pos_x=Positions.RIGHT,pos_y=Positions.TOP,refresh=False, size=7)
         m5.set_display_text(str(press) + "hPa",pos_x=Positions.RIGHT,pos_y=Positions.BOTTOM,refresh=False, size=5)
