@@ -57,6 +57,11 @@ def environment(m5) -> None:
         m5.set_display_text(str(press) + "hPa",pos_x=Positions.CENTER,pos_y=Positions.BOTTOM,refresh=False, size=7)
 
     if data["button_b"] == True:
+
+        m5.set_pwmout(pin_id=0,value=False)
+        m5.set_dout(pin_id=0,value=False)
+        m5.set_dout(pin_id=1,value=False)
+
         m5.set_display_text("気温",pos_x=Positions.LEFT,pos_y=Positions.TOP, size=7)
         m5.set_display_text(str(temp) + "度",pos_x=Positions.LEFT,pos_y=Positions.BOTTOM,refresh=False, size=5)
 
