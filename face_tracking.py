@@ -15,6 +15,7 @@ from pathlib import Path
 from queue import Queue
 from time import sleep
 from typing import Any
+from play_sound import play_sound
 
 import blobconverter
 import cv2
@@ -456,6 +457,7 @@ def About_Display(m5) -> None:
     m5.set_display_color(Colors.WHITE)
 
     m5.set_display_text("おはよう!",size=7)
+    play_sound("./voice/おはようございます.mp3")
 
     time.sleep(3)
 
@@ -465,7 +467,7 @@ def About_Display(m5) -> None:
     press = int(data["pressure"] / 100)
 
     m5.set_display_text("気温",pos_x=Positions.LEFT,pos_y=Positions.TOP, size=7)
-    m5.set_display_text(str(temp) + "℃",pos_x=Positions.LEFT,pos_y=Positions.BOTTOM,refresh=False, size=5)
+    m5.set_display_text(str(temp) + "度",pos_x=Positions.LEFT,pos_y=Positions.BOTTOM,refresh=False, size=5)
 
     m5.set_display_text("気圧",pos_x=Positions.RIGHT,pos_y=Positions.TOP,refresh=False, size=7)
     m5.set_display_text(str(press) + "hPa",pos_x=Positions.RIGHT,pos_y=Positions.BOTTOM,refresh=False, size=5)
