@@ -457,7 +457,7 @@ def About_Display(m5) -> None:
     m5.set_display_color(Colors.WHITE)
 
     m5.set_display_text("おはよう!",size=7)
-    play_sound("./voice/おはようございます.mp3")
+    play_sound("./voice/おはようございます.wav")
 
     time.sleep(3)
 
