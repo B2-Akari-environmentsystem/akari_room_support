@@ -508,4 +508,4 @@ def face_tracking(m5,joints) -> None:
     t3.join()
     t4.join()
 
-    sleep_module.sleep(m5,joints)
+    #sleep_module.sleep(m5,joints)
