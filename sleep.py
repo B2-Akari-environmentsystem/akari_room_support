@@ -8,7 +8,7 @@ from akari_client.color import Colors, Color
 #音声
 from play_sound import play_sound
 
-def sleep(m5,joints) -> None:
+def sleep(m5,joints,isSleep) -> None:
 
     #寝る動作
     #ディスプレイを黒くする
