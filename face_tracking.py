@@ -466,9 +466,9 @@ def About_Display(m5,Startup_time) -> None:
     temp = int(data["temperature"])
     press = int(data["pressure"] / 100)
 
-    m5.set_display_text(str(Startup_time.year) + "年 " + str(Startup_time.month) + "月 " + str(Startup_time.day) + "日",pos_x=Positions.CENTER,pos_y=Positions.TOP,refresh=False, size=5)
+    m5.set_display_text(str(Startup_time.year) + "年 " + str(Startup_time.month) + "月 " + str(Startup_time.day) + "日",pos_x=Positions.CENTER,pos_y=Positions.TOP, size=4)
 
-    m5.set_display_text("気温",pos_x=Positions.LEFT,pos_y=Positions.CENTER, size=7)
+    m5.set_display_text("気温",pos_x=Positions.LEFT,pos_y=Positions.CENTER,refresh=False, size=7)
     m5.set_display_text(str(temp) + "度",pos_x=Positions.LEFT,pos_y=Positions.BOTTOM,refresh=False, size=5)
 
     m5.set_display_text("気圧",pos_x=Positions.RIGHT,pos_y=Positions.CENTER,refresh=False, size=7)
