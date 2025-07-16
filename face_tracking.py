@@ -16,6 +16,7 @@ from queue import Queue
 from time import sleep
 from typing import Any
 from play_sound import play_sound
+from datetime import datetime
 
 import blobconverter
 import cv2
@@ -440,7 +441,7 @@ def FaceRecognition(q_detection: Any, m5) -> None:
             if cv2.waitKey(1) == ord("q"):
                 break
 
-def About_Display(m5) -> None:
+def About_Display(m5,Startup_time) -> None:
     global running1
     global running2
     global running3
@@ -456,7 +457,7 @@ def About_Display(m5) -> None:
     #ディスプレイを白くする
     m5.set_display_color(Colors.WHITE)
 
-    m5.set_display_text("おはよう!",size=7)
+    m5.set_display_text("おはよう!", text_color=Colors.BLACK, size=7)
     play_sound("./voice/おはようございます.wav")
 
     time.sleep(3)
@@ -466,10 +467,12 @@ def About_Display(m5) -> None:
     temp = int(data["temperature"])
     press = int(data["pressure"] / 100)
 
-    m5.set_display_text("気温",pos_x=Positions.LEFT,pos_y=Positions.TOP, size=7)
+    m5.set_display_text(str(Startup_time.year) + "年 " + str(Startup_time.month) + "月 " + str(Startup_time.day)+ "日", pos_x=Positions.CENTER,pos_y=Positions.TOP, size4)
+
+    m5.set_display_text("気温",pos_x=Positions.LEFT,pos_y=Positions.CENTER, refresh=False, size=7)
     m5.set_display_text(str(temp) + "度",pos_x=Positions.LEFT,pos_y=Positions.BOTTOM,refresh=False, size=5)
 
-    m5.set_display_text("気圧",pos_x=Positions.RIGHT,pos_y=Positions.TOP,refresh=False, size=7)
+    m5.set_display_text("気圧",pos_x=Positions.RIGHT,pos_y=Positions.CENTER,refresh=False, size=7)
     m5.set_display_text(str(press) + "hPa",pos_x=Positions.RIGHT,pos_y=Positions.BOTTOM,refresh=False, size=5)
 
     while True:
@@ -489,7 +492,7 @@ def About_Display(m5) -> None:
 
 
 
-def face_tracking(m5,joints) -> None:
+def face_tracking(m5,joints,Startup_time) -> None:
     q_detection: Any = Queue()
 
     face_tracker = FaceTracker(joints,m5)
@@ -498,7 +501,7 @@ def face_tracking(m5,joints) -> None:
     t1 = threading.Thread(target=FaceRecognition, args=(q_detection,m5,))
     t2 = threading.Thread(target=direction_updater._face_info_cb, args=(q_detection,m5,))
     t3 = threading.Thread(target=face_tracker._tracker)
-    t4 = threading.Thread(target=About_Display, args=(m5,))
+    t4 = threading.Thread(target=About_Display, args=(m5,Startup_time,))
     t1.start()
     t2.start()
     t3.start()

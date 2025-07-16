@@ -14,11 +14,12 @@ def sleep(m5,joints) -> None:
     #ディスプレイを黒くする
     m5.set_display_color(Colors.BLACK)
 
-    m5.set_display_text("Z",pos_x=Positions.LEFT,pos_y=Positions.TOP, text_color=Colors.BLUE, size=7)
-    m5.set_display_text("Z",pos_x=Positions.CENTER,pos_y=Positions.MIDDLE, text_color=Colors.BLUE, refresh=False, size=5)
-    m5.set_display_text("Z",pos_x=Positions.RIGHT,pos_y=Positions.BOTTOM, text_color=Colors.BLUE, refresh=False, size=3)
+    m5.set_display_text("Z",pos_x=Positions.LEFT,pos_y=Positions.TOP, text_color=Colors.BLUE, size=9)
+    m5.set_display_text("Z",pos_x=Positions.CENTER,pos_y=Positions.CENTER, text_color=Colors.BLUE, refresh=False, size=7)
+    m5.set_display_text("Z",pos_x=Positions.RIGHT,pos_y=Positions.BOTTOM, text_color=Colors.BLUE, refresh=False, size=5)
 
-    play_sound("./voice/おやすみなさい.wav")
+    if not isSleep:
+        play_sound("./voice/おやすみなさい.wav")
 
 
 
