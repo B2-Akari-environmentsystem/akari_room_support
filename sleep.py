@@ -13,6 +13,9 @@ def sleep(m5,joints,isSleep) -> None:
     #寝る動作
     #ディスプレイを黒くする
     m5.set_display_color(Colors.BLACK)
+    m5.set_pwmout(pin_id=0,value=False)
+    m5.set_dout(pin_id=0,value=False)
+    m5.set_dout(pin_id=1,value=False)
 
     m5.set_display_text("Z",pos_x=Positions.LEFT,pos_y=Positions.TOP, text_color=Colors.BLUE, size=9)
     m5.set_display_text("Z",pos_x=Positions.CENTER,pos_y=Positions.CENTER, text_color=Colors.BLUE, refresh=False, size=7)

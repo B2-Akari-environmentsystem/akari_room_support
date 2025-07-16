@@ -189,8 +189,17 @@ class DirectionUpdater:
             if count2 %100 == 0:
                 data = m5.get()
 
+            if(data["brightness"]>3500):
+                running2 = False
+                break
 
-            self.detections = q_detection.get()
+            if(running1 == False or running3 == False or running4 == False):
+                break
+
+            try:
+                self.detections = q_detection.get(timeout=5)
+            except Enpty:
+                continue
 
             self._face_x = self.detections[0]
             self._face_y = self.detections[1]
@@ -203,13 +212,6 @@ class DirectionUpdater:
                 self._face_y + self._face_height / 2,
             )
             self._calc_p_gain()
-
-            if(data["brightness"]>3500):
-                running2 = False
-                break
-
-            if(running1 == False or running3 == False or running4 == False):
-                break
 
     def _set_goal_pos(self, face_x: float, face_y: float) -> None:
         global pan_target_angle
@@ -476,7 +478,7 @@ def About_Display(m5,Startup_time) -> None:
     m5.set_display_text(str(press) + "hPa",pos_x=Positions.RIGHT,pos_y=Positions.BOTTOM,refresh=False, size=5)
 
     while True:
-        environment.environment(m5)
+        environment.environment(m5,Startup_time)
 
         if(data["brightness"]>3500):
             running4 = False
