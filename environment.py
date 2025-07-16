@@ -6,8 +6,13 @@ from akari_client.color import Colors, Color
 
 from datetime import datetime
 
+import pustil
+
 def environment(m5,Startup_time) -> None:
     data = m5.get()
+
+    boot_time = psutil.boot_time()
+    boot_datetime = datetime.fromtimestamp(boot_time)
 
 
 
@@ -15,6 +20,10 @@ def environment(m5,Startup_time) -> None:
     press = int(data["pressure"] / 100)
 
     if data["button_a"] == True:
+
+        m5.set_pwmout(pin_id=0,value=False)
+        m5.set_dout(pin_id=0,value=False)
+        m5.set_dout(pin_id=1,value=False)
 
         m5.set_display_text(str(Startup_time.year) + "年 " + str(Startup_time.month) + "月 " + str(Startup_time.day)+ "日", pos_x=Positions.CENTER,pos_y=Positions.TOP, size=4)
         m5.set_display_text("気温",pos_x=Positions.CENTER,pos_y=Positions.CENTER, refresh=False, size=7)

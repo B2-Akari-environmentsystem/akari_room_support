@@ -4,3 +4,4 @@ depthai
 mediapipe
 pyaudio
 shapely
+psutil

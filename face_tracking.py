@@ -10,6 +10,9 @@ https://github.com/luxonis/depthai-experiments/tree/master/gen2-face-detection
 import argparse
 import threading
 import time
+
+import psutil
+
 import sleep as sleep_module
 from pathlib import Path
 from queue import Queue
@@ -465,6 +468,9 @@ def About_Display(m5,Startup_time) -> None:
     time.sleep(3)
 
     data = m5.get()
+
+    boot_time = psutil.boot_time()
+    boot_datetime = datetime.fromtimestamp(boot_time)
 
     temp = int(data["temperature"])
     press = int(data["pressure"] / 100)
