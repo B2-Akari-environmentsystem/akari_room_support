@@ -492,7 +492,7 @@ def About_Display(m5,Startup_time) -> None:
 
 
 
-def face_tracking(m5,joints) -> None:
+def face_tracking(m5,joints,Startup_time) -> None:
     q_detection: Any = Queue()
 
     face_tracker = FaceTracker(joints,m5)
@@ -501,7 +501,7 @@ def face_tracking(m5,joints) -> None:
     t1 = threading.Thread(target=FaceRecognition, args=(q_detection,m5,))
     t2 = threading.Thread(target=direction_updater._face_info_cb, args=(q_detection,m5,))
     t3 = threading.Thread(target=face_tracker._tracker)
-    t4 = threading.Thread(target=About_Display, args=(m5,))
+    t4 = threading.Thread(target=About_Display, args=(m5,Startup_time))
     t1.start()
     t2.start()
     t3.start()
