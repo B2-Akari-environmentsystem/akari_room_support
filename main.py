@@ -29,7 +29,7 @@ joints.enable_all_servo()
 isSleep = False
 count = 0
 
-Startup_time = datetime.now()
+Now_time = datetime.now()
 
 while(1):
     #ボタン、センサ全般の情報を取得
@@ -46,7 +46,7 @@ while(1):
 
     else:#起きる動作
         isSleep = False
-        face_tracking.face_tracking(m5,joints,Startup_time)
+        face_tracking.face_tracking(m5,joints,Now_time)
 
         time.sleep(1)
     

@@ -1,17 +1,12 @@
 #face_tracking.py
 
-"""
-Face detection sample
-Created on 2022/04/16
-Based on depthai-experiments
-https://github.com/luxonis/depthai-experiments/tree/master/gen2-face-detection
-"""
-
 import argparse
 import threading
 import time
 
 import psutil
+
+from queue import Empty
 
 import sleep as sleep_module
 from pathlib import Path
@@ -201,7 +196,7 @@ class DirectionUpdater:
 
             try:
                 self.detections = q_detection.get(timeout=5)
-            except Enpty:
+            except Empty:
                 continue
 
             self._face_x = self.detections[0]
@@ -446,7 +441,7 @@ def FaceRecognition(q_detection: Any, m5) -> None:
             if cv2.waitKey(1) == ord("q"):
                 break
 
-def About_Display(m5,Startup_time) -> None:
+def About_Display(m5,Now_time) -> None:
     global running1
     global running2
     global running3
@@ -472,10 +467,34 @@ def About_Display(m5,Startup_time) -> None:
     boot_time = psutil.boot_time()
     boot_datetime = datetime.fromtimestamp(boot_time)
 
+    difference = Now_time - boot_datetime
+
+    total_seconds = int(difference.total_seconds())
+
+    hours = total_seconds // 3600
+    minutes = (total_seconds % 3600) // 60
+
+
+
     temp = int(data["temperature"])
+
+    if hours > 0:
+        temp -= 6
+    elif minutes < 28:
+        temp -= 5
+    elif minutes < 22:
+        temp -= 4
+    elif minutes < 16:
+        temp -= 3
+    elif minutes < 12:
+        temp -= 2
+    elif minutes < 8:
+        temp -= 1
+
+        
     press = int(data["pressure"] / 100)
 
-    m5.set_display_text(str(Startup_time.year) + "年 " + str(Startup_time.month) + "月 " + str(Startup_time.day)+ "日", pos_x=Positions.CENTER,pos_y=Positions.TOP, size=4)
+    m5.set_display_text(str(Now_time.year) + "年 " + str(Now_time.month) + "月 " + str(Now_time.day)+ "日", pos_x=Positions.CENTER,pos_y=Positions.TOP, size=3)
 
     m5.set_display_text("気温",pos_x=Positions.LEFT,pos_y=Positions.CENTER, refresh=False, size=7)
     m5.set_display_text(str(temp) + "度",pos_x=Positions.LEFT,pos_y=Positions.BOTTOM,refresh=False, size=5)
@@ -484,7 +503,7 @@ def About_Display(m5,Startup_time) -> None:
     m5.set_display_text(str(press) + "hPa",pos_x=Positions.RIGHT,pos_y=Positions.BOTTOM,refresh=False, size=5)
 
     while True:
-        environment.environment(m5,Startup_time)
+        environment.environment(m5,Now_time)
 
         if(data["brightness"]>3500):
             running4 = False
@@ -500,7 +519,7 @@ def About_Display(m5,Startup_time) -> None:
 
 
 
-def face_tracking(m5,joints,Startup_time) -> None:
+def face_tracking(m5,joints,Now_time) -> None:
     q_detection: Any = Queue()
 
     face_tracker = FaceTracker(joints,m5)
@@ -509,7 +528,7 @@ def face_tracking(m5,joints,Startup_time) -> None:
     t1 = threading.Thread(target=FaceRecognition, args=(q_detection,m5,))
     t2 = threading.Thread(target=direction_updater._face_info_cb, args=(q_detection,m5,))
     t3 = threading.Thread(target=face_tracker._tracker)
-    t4 = threading.Thread(target=About_Display, args=(m5,Startup_time,))
+    t4 = threading.Thread(target=About_Display, args=(m5,Now_time,))
     t1.start()
     t2.start()
     t3.start()
@@ -519,4 +538,3 @@ def face_tracking(m5,joints,Startup_time) -> None:
     t3.join()
     t4.join()
 
-    #sleep_module.sleep(m5,joints)

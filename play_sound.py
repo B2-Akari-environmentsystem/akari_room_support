@@ -6,8 +6,7 @@ class Config:
 
 def play_sound(file_path):
 
-    # 再生するファイルを指定
-    # file_path = "あなたの勝ち_1倍速.wav"
+
 
     # wavファイルを読み込む
     wf = wave.open(file_path, 'rb')
@@ -34,7 +33,6 @@ def play_sound(file_path):
 def play_sound_siren(file_path):
 
     # 再生するファイルを指定
-    # file_path = "あなたの勝ち_1倍速.wav"
 
     # wavファイルを読み込む
     wf = wave.open(file_path, 'rb')
