@@ -1,2 +1,7 @@
 akari-client[depthai]
 akari-proto
+depthai
+mediapipe
+pyaudio
+shapely
+psutil
