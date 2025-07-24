@@ -130,7 +130,7 @@ class DirectionUpdater:
     # モータゲインの最小幅。追従性の最小はここで変更
     _MIN_PAN_GAIN = 0.07
     _MIN_TILT_GAIN = 0.07
-    # 顔の距離によってモータゲインを変化させる係数。上げると早い動きについていきやすいが、オーバーシュートしやすくなる。
+    # 顔の距離によってモータゲインを変化させる係数。
     _GAIN_COEF_PAN = 0.0001
     _GAIN_COEF_TILT = 0.0001
 
@@ -240,20 +240,6 @@ class DirectionUpdater:
 
         self._old_face_x = face_x
         self._old_face_y = face_y
-
-
-"""
-YuNet face detection demo running on device with video input from host.
-https://github.com/ShiqiYu/libfacedetection
-
-
-Run as:
-python3 -m pip install -r requirements.txt
-python3 main.py
-
-Blob is taken from:
-https://github.com/PINTO0309/PINTO_model_zoo/tree/main/144_YuNet
-"""
 
 
 def FaceRecognition(q_detection: Any, m5) -> None:
@@ -491,7 +477,7 @@ def About_Display(m5,Now_time) -> None:
     elif minutes < 8:
         temp -= 1
 
-        
+
     press = int(data["pressure"] / 100)
 
     m5.set_display_text(str(Now_time.year) + "年 " + str(Now_time.month) + "月 " + str(Now_time.day)+ "日", pos_x=Positions.CENTER,pos_y=Positions.TOP, size=3)

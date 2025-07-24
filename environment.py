@@ -70,7 +70,7 @@ def environment(m5,Now_time) -> None:
                 play_sound("./voice/ちょうど良い気温ですね！勉強や作業にも適した環境になってます！.wav")
             if 21 <= random_number and random_number <= 40:
                 play_sound("./voice/とても良い環境ですね、リラックスするのにもちょうど良い気温になっています！.wav")
-            if random_number = 41:
+            if random_number == 41:
                 play_sound("./voice/リモコンという名の聖剣を手にし、私はついにこの部屋の温度を統べる王となったのだあああ.wav")
         
         if 13 <= temp and temp < 18:
@@ -83,11 +83,11 @@ def environment(m5,Now_time) -> None:
 
             m5.set_dout(pin_id=1,value=True)
 
-            if random_number = 1:
+            if random_number == 1:
                 play_sound("./voice/少し肌寒いですね、足先が冷えないように暖かい靴下を履きましょう.wav")
-            if random_number = 2:
+            if random_number == 2:
                 play_sound("./voice/少し肌寒いですね、暖かい飲み物を飲んで体を労ってあげましょう.wav")
-            if random_number = 3:
+            if random_number == 3:
                 play_sound("./voice/少し肌寒いですね、湯たんぽや膝掛けがあると良いかもしれません.wav")
 
 
@@ -105,7 +105,7 @@ def environment(m5,Now_time) -> None:
                 play_sound("./voice/かなり冷え込んでますね、ストーブやこたつで暖まりましょう.wav")
             if 6 <= random_number and random_number <= 10:
                 play_sound("./voice/かなり冷え込んでますね、エアコンをつけて部屋を温めましょう.wav")
-            if random_number = 11:
+            if random_number == 11:
                 play_sound("./voice/samuikogoeru.wav")
 
         if 25 < temp and temp <= 30:
@@ -118,11 +118,11 @@ def environment(m5,Now_time) -> None:
 
             m5.set_dout(pin_id=1,value=True)
 
-            if random_number = 1:
+            if random_number == 1:
                 play_sound("./voice/少し暑いですね、レースカーテンなどで日差しを遮断してもいいかもしれませんね。.wav")
-            if random_number = 2:
+            if random_number == 2:
                 play_sound("./voice/少し暑いですね、扇風機をつけてみてはいかがでしょうか？.wav")
-            if random_number = 3:
+            if random_number == 3:
                 play_sound("./voice/少し暑いですね、窓を開けて風通しをよくしましょう.wav")
 
 
@@ -141,7 +141,7 @@ def environment(m5,Now_time) -> None:
                 play_sound("./voice/大変危険な温度となっております。　一刻も早く冷房をつけましょう。.wav")
             if 6 <= random_number and random_number <= 10:
                 play_sound("./voice/大変危険な温度となっております。　水分をとり、熱中症に気をつけましょう。.wav")
-            if random_number = 11:
+            if random_number == 11:
                 play_sound("./voice/危ないよーーーーんんん、死ぬぞおおおおおおおおお.wav")
 
     if data["button_c"] == True:
