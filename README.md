@@ -1,17 +1,24 @@
-# akari_dataset_creator
-AKARIで画像認識のデータセット用の画像を撮影したり、画像ファイルを連番に変換したりするためのレポジトリです。  
-詳細は下記のリンク先を参照ください。  
-https://akarigroup.github.io/docs/source/dev/custom_object_detection/image_collection.html
+# ターミナルで実行
 
 
-ターミナルで
-
+### ディレクトリ移動
+```bash
 cd akari_environment_system-test_KIO
+```
 
+### 仮想環境作成
+```bash
 python3 -m venv venv
-
+```
+```bash
 . venv/bin/activate
+```
 
+### パッケージインストール
+```bash
 pip install -r requirements
-
+```
+### 実行
+```bash
 python3 main.py
+```
