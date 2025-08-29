@@ -49,3 +49,8 @@ pip install -r requirements.txt
 ```bash
 python3 main.py
 ```
+
+## 補足
+もし音声が正常に出力されなければ、別途でスピーカーを外付けしてください。
+
+作成した音声ファイルには「VOICE GATE」を使用しています。
