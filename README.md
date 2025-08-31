@@ -23,7 +23,7 @@
 cd
 ```
 ```bash
-git clone https://github.com/B2-Akari-environmentsystem/akari_room_support.git
+git clone https://github.com/AkariGroup/akari_room_support.git
 ```
 ```bash
 cd akari_room_support
