@@ -49,4 +49,3 @@ while(1):
         face_tracking.face_tracking(m5,joints,Now_time)
 
         time.sleep(1)
-    
