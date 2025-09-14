@@ -1,6 +1,6 @@
 akari-client[depthai]
 akari-proto
-depthai
+depthai==2.30.0
 mediapipe
 pyaudio
 shapely
